@@ -15,10 +15,10 @@ if ! git status -uno | grep 'up to date' > /dev/null; then
 	pkill -f ChuanhuChatbot.py
 
 	# 拉取最新更改
-	git pull
+	#git pull
 
 	# 安装依赖
-	pip3 install -r requirements.txt
+	#pip3 install -r requirements.txt
 
 	# 重新启动服务器
 	nohup python3 ChuanhuChatbot.py &
