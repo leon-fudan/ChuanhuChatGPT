@@ -61,7 +61,8 @@ with open("assets/custom.css", "r", encoding="utf-8") as f:
 with gr.Blocks(css=customCSS, theme=small_and_beautiful_theme) as demo:
     history = gr.State([])
     token_count = gr.State([])
-    promptTemplates = gr.State(load_template(get_template_names(plain=True)[0], mode=2))
+    promptTemplates = gr.State(load_template(
+        get_template_names(plain=True)[0], mode=2))
     user_api_key = gr.State(my_api_key)
     user_question = gr.State("")
     outputing = gr.State(False)
@@ -74,7 +75,8 @@ with gr.Blocks(css=customCSS, theme=small_and_beautiful_theme) as demo:
     with gr.Row(scale=1).style(equal_height=True):
         with gr.Column(scale=5):
             with gr.Row(scale=1):
-                chatbot = gr.Chatbot(elem_id="chuanhu_chatbot").style(height="100%")
+                chatbot = gr.Chatbot(
+                    elem_id="chuanhu_chatbot").style(height="100%")
             with gr.Row(scale=1):
                 with gr.Column(scale=12):
                     user_input = gr.Textbox(
@@ -82,7 +84,8 @@ with gr.Blocks(css=customCSS, theme=small_and_beautiful_theme) as demo:
                     ).style(container=False)
                 with gr.Column(min_width=70, scale=1):
                     submitBtn = gr.Button("发送", variant="primary")
-                    cancelBtn = gr.Button("取消", variant="secondary", visible=False)
+                    cancelBtn = gr.Button(
+                        "取消", variant="secondary", visible=False)
             with gr.Row(scale=1):
                 emptyBtn = gr.Button(
                     "🧹 新的对话",
@@ -102,21 +105,24 @@ with gr.Blocks(css=customCSS, theme=small_and_beautiful_theme) as demo:
                         visible=not HIDE_MY_KEY,
                         label="API-Key",
                     )
-                    usageTxt = gr.Markdown(get_usage(my_api_key), elem_id="usage_display")
+                    usageTxt = gr.Markdown(
+                        get_usage(my_api_key), elem_id="usage_display")
                     model_select_dropdown = gr.Dropdown(
                         label="选择模型", choices=MODELS, multiselect=False, value=MODELS[0]
                     )
                     use_streaming_checkbox = gr.Checkbox(
                         label="实时传输回答", value=True, visible=enable_streaming_option
                     )
-                    use_websearch_checkbox = gr.Checkbox(label="使用在线搜索", value=False)
+                    use_websearch_checkbox = gr.Checkbox(
+                        label="使用在线搜索", value=False)
                     language_select_dropdown = gr.Dropdown(
                         label="选择回复语言（针对搜索&索引功能）",
                         choices=REPLY_LANGUAGES,
                         multiselect=False,
                         value=REPLY_LANGUAGES[0],
                     )
-                    index_files = gr.Files(label="上传索引文件", type="file", multiple=True)
+                    index_files = gr.Files(
+                        label="上传索引文件", type="file", multiple=True)
 
                 with gr.Tab(label="Prompt"):
                     systemPromptTxt = gr.Textbox(
@@ -134,7 +140,8 @@ with gr.Blocks(css=customCSS, theme=small_and_beautiful_theme) as demo:
                                         label="选择Prompt模板集合文件",
                                         choices=get_template_names(plain=True),
                                         multiselect=False,
-                                        value=get_template_names(plain=True)[0],
+                                        value=get_template_names(
+                                            plain=True)[0],
                                     ).style(container=False)
                                 with gr.Column(scale=1):
                                     templateRefreshBtn = gr.Button("🔄 刷新")
@@ -143,11 +150,13 @@ with gr.Blocks(css=customCSS, theme=small_and_beautiful_theme) as demo:
                                     templateSelectDropdown = gr.Dropdown(
                                         label="从Prompt模板中加载",
                                         choices=load_template(
-                                            get_template_names(plain=True)[0], mode=1
+                                            get_template_names(plain=True)[
+                                                0], mode=1
                                         ),
                                         multiselect=False,
                                         value=load_template(
-                                            get_template_names(plain=True)[0], mode=1
+                                            get_template_names(plain=True)[
+                                                0], mode=1
                                         )[0],
                                     ).style(container=False)
 
@@ -174,7 +183,8 @@ with gr.Blocks(css=customCSS, theme=small_and_beautiful_theme) as demo:
                                     ).style(container=True)
                                 with gr.Column(scale=1):
                                     saveHistoryBtn = gr.Button("💾 保存对话")
-                                    exportMarkdownBtn = gr.Button("📝 导出为Markdown")
+                                    exportMarkdownBtn = gr.Button(
+                                        "📝 导出为Markdown")
                                     gr.Markdown("默认保存于history文件夹")
                             with gr.Row():
                                 with gr.Column():
@@ -259,20 +269,24 @@ with gr.Blocks(css=customCSS, theme=small_and_beautiful_theme) as demo:
     )
 
     transfer_input_args = dict(
-        fn=transfer_input, inputs=[user_input], outputs=[user_question, user_input, submitBtn, cancelBtn], show_progress=True
+        fn=transfer_input, inputs=[user_input], outputs=[
+            user_question, user_input, submitBtn, cancelBtn], show_progress=True
     )
-    
+
     get_usage_args = dict(
-        fn=get_usage, inputs=[user_api_key], outputs=[usageTxt], show_progress=False
+        fn=get_usage, inputs=[user_api_key], outputs=[
+            usageTxt], show_progress=False
     )
 
     # Chatbot
     cancelBtn.click(cancel_outputing, [], [])
 
-    user_input.submit(**transfer_input_args).then(**chatgpt_predict_args).then(**end_outputing_args)
+    user_input.submit(**transfer_input_args).then(**
+                                                  chatgpt_predict_args).then(**end_outputing_args)
     user_input.submit(**get_usage_args)
 
-    submitBtn.click(**transfer_input_args).then(**chatgpt_predict_args).then(**end_outputing_args)
+    submitBtn.click(**transfer_input_args).then(**
+                                                chatgpt_predict_args).then(**end_outputing_args)
     submitBtn.click(**get_usage_args)
 
     emptyBtn.click(
@@ -326,12 +340,14 @@ with gr.Blocks(css=customCSS, theme=small_and_beautiful_theme) as demo:
         show_progress=True,
     )
     reduceTokenBtn.click(**get_usage_args)
-    
+
     # ChatGPT
-    keyTxt.change(submit_key, keyTxt, [user_api_key, status_display]).then(**get_usage_args)
+    keyTxt.change(submit_key, keyTxt, [user_api_key, status_display]).then(
+        **get_usage_args)
 
     # Template
-    templateRefreshBtn.click(get_template_names, None, [templateFileSelectDropdown])
+    templateRefreshBtn.click(get_template_names, None, [
+                             templateFileSelectDropdown])
     templateFileSelectDropdown.change(
         load_template,
         [templateFileSelectDropdown],
@@ -359,7 +375,8 @@ with gr.Blocks(css=customCSS, theme=small_and_beautiful_theme) as demo:
         downloadFile,
         show_progress=True,
     )
-    historyRefreshBtn.click(get_history_names, None, [historyFileSelectDropdown])
+    historyRefreshBtn.click(get_history_names, None, [
+                            historyFileSelectDropdown])
     historyFileSelectDropdown.change(
         load_chat_history,
         [historyFileSelectDropdown, systemPromptTxt, history, chatbot],
@@ -426,7 +443,7 @@ if __name__ == "__main__":
             )
         else:
             demo.queue(concurrency_count=CONCURRENT_COUNT).launch(
-                share=False, favicon_path="./assets/favicon.ico", inbrowser=True
+                share=True, favicon_path="./assets/favicon.ico", inbrowser=True
             )  # 改为 share=True 可以创建公开分享链接
         # demo.queue(concurrency_count=CONCURRENT_COUNT).launch(server_name="0.0.0.0", server_port=7860, share=False) # 可自定义端口
         # demo.queue(concurrency_count=CONCURRENT_COUNT).launch(server_name="0.0.0.0", server_port=7860,auth=("在这里填写用户名", "在这里填写密码")) # 可设置用户名与密码
