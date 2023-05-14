@@ -1,4 +1,5 @@
-gradio
+gradio==3.24.1
+gradio_client==0.0.7
 mdtex2html
 pypinyin
 tiktoken
@@ -7,6 +8,6 @@ tqdm
 colorama
 duckduckgo_search
 Pygments
-llama_index
-langchain
+llama_index==0.5.8
+langchain==0.0.132
 markdown

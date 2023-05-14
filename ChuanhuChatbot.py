@@ -16,7 +16,7 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)d] %(message)s",
 )
 
-my_api_key = "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"  # 在这里输入你的 API 密钥
+my_api_key = "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"
 
 # if we are running in Docker
 if os.environ.get("dockerrun") == "yes":
@@ -412,7 +412,7 @@ logging.info(
     + colorama.Style.RESET_ALL
 )
 # 默认开启本地服务器，默认可以直接从IP访问，默认不创建公开分享链接
-demo.title = "川虎ChatGPT 🚀"
+demo.title = "ChatGPT"
 
 if __name__ == "__main__":
     reload_javascript()
@@ -443,7 +443,10 @@ if __name__ == "__main__":
             )
         else:
             demo.queue(concurrency_count=CONCURRENT_COUNT).launch(
-                share=True, favicon_path="./assets/favicon.ico", inbrowser=True
+                server_name="0.0.0.0",
+                server_port=10086,
+                share=False, favicon_path="./assets/favicon.ico", 
+                inbrowser=True
             )  # 改为 share=True 可以创建公开分享链接
         # demo.queue(concurrency_count=CONCURRENT_COUNT).launch(server_name="0.0.0.0", server_port=7860, share=False) # 可自定义端口
         # demo.queue(concurrency_count=CONCURRENT_COUNT).launch(server_name="0.0.0.0", server_port=7860,auth=("在这里填写用户名", "在这里填写密码")) # 可设置用户名与密码
